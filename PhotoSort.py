@@ -1,19 +1,17 @@
-print('Hello')
-print('Hello')
-print('Testirovanie')
-print('Stroka 4')
-print('Добавить строку 9')
-print('Добавить строку 10')
-print('Добавить строку 11')
-print('Добавить строку 12')
-print('Добавить строку 13')
-print('Добавить строку 14')
-print('Добавить строку 15')
-print('Добавить строку 16')
-print('Добавить строку 17')
-print('Добавить строку 18')
-print('Добавить строку 19')
-print('Добавить строку 20')
-print('Добавить строку 21')
-print('Добавить строку 22')
-print('Добавить строку 23 из ГитХаба'
+from exif import Image
+
+with open('R0250038.JPG', 'rb') as image_file:
+    my_image = Image(image_file)
+    my_camera_model = my_image.model
+    my_camera_lens = my_image.lens_model
+    my_camera_lens_focal = my_image.lens_specification
+
+print(my_image)
+print(my_camera_model)
+print(my_camera_lens)
+print(my_camera_lens_focal)
+
+
+
+
+
