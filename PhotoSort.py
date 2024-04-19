@@ -37,3 +37,5 @@ else:
 print(f"Camera Model: {clean_camera_model}")
 print(f"Lens Model: {clean_lens_model}")
 print(f"Lens Specification: {lens_specification}")
+
+print('test')
