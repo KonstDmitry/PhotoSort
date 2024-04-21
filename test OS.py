@@ -1,5 +1,7 @@
 import os
 
+path_photo = '/Users/dmitry/Desktop/Old'
+
 print(os.listdir())
 print(os.path.getsize('PhotoSort.py'))
 print(os.path.getctime('PhotoSort.py'))
@@ -11,5 +13,9 @@ print('Текущая директория:', os.getcwd())
 # for i in range(1,5):
 #     path_name = str(i)
 #     os.mkdir(path_name)
-for i in range (2):
-    os.makedirs('Папка для тестирования/Old')
+
+# print(os.listdir('/Users/dmitry/Desktop/Ricoh'), end='\n')
+
+for i in range(len(os.listdir(path_photo))):
+    print(os.listdir(path_photo)[i])
+
