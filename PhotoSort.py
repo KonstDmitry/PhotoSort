@@ -1,14 +1,14 @@
 from PIL import Image as PILImage
 import string
-import os
 
+img_file = '0XT53409.JPG'
 def clean_string(s):
     # Оставляем только печатаемые символы
     printable = set(string.printable)
     return "".join(filter(lambda x: x in printable, s))
 
 # Открытие изображения и получение EXIF-данных
-with open('0XT53409.JPG', 'rb') as image_file:
+with open(img_file, 'rb') as image_file:
     img = PILImage.open(image_file)
     exif_data = img._getexif()
 
@@ -39,4 +39,4 @@ print(f"Camera Model: {clean_camera_model}")
 print(f"Lens Model: {clean_lens_model}")
 print(f"Lens Specification: {lens_specification}")
 
-print('test')
+print(img.size)
