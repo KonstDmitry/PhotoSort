@@ -1,7 +1,7 @@
 from PIL import Image as PILImage
 import string
 
-img_file = '0XT53409.JPG'
+img_file = 'Photo/0XT53408.RAF'
 def clean_string(s):
     # Оставляем только печатаемые символы
     printable = set(string.printable)
