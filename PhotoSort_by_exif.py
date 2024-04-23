@@ -17,9 +17,9 @@ for i in range(len(os.listdir(path_photo))):
         with open(str(img_path), 'rb') as image_file:
             my_image = Image(image_file)
             my_camera_model = str(my_image.model).rstrip()
-            print(f"{img} {my_camera_model} : {my_image.datetime}")
+            print(f"{img} {my_camera_model} : {my_image.datetime} {my_image.has_exif}")
     except:
-        print(f"Пропустил файл: {os.listdir(path_photo)[i]}")
+        print(f"Пропустил файл: {os.listdir(path_photo)[i]} {my_image.has_exif}")
         continue
 
 #     my_camera_model = my_image.model
