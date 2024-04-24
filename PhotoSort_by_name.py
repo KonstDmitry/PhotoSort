@@ -29,7 +29,7 @@ for file in os.listdir(img_path):
             try:
                 img_open = pil_image.open(img_path + file)
                 img_exif = img_open.getexif()
-                a = str(img_exif.get(272, None)).rstrip()
+                # a = str(img_exif.get(272, None)).rstrip()
                 b = img_exif.get(306, None)
                 print(f"{file} {b}")
                 file_pil_count += 1
