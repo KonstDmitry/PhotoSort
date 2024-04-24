@@ -38,7 +38,7 @@ for img in os.listdir(path_photo):
             #     continue
             with open(img_path, 'rb') as image_file:
                 my_image = Image(image_file)
-                my_camera_model = str(my_image.model).rstrip()
+                my_camera_model = my_image.model
                 print(f"{img} {my_camera_model} : {my_image.datetime}")
                 img_in_count += 1
     except:
