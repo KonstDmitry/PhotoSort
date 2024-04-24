@@ -1,7 +1,7 @@
 from PIL import Image as PILImage
 import string
 
-img_file = 'Photo/0XT53408(1).RAW'
+img_file = 'Photo/IMG_3394.CR2'
 def clean_string(s):
     # Оставляем только печатаемые символы
     printable = set(string.printable)
@@ -10,7 +10,7 @@ def clean_string(s):
 # Открытие изображения и получение EXIF-данных
 with open(img_file, 'rb') as image_file:
     img = PILImage.open(image_file)
-    exif_data = img._getexif()
+    exif_data = img.getexif()
 
 # Функция для декодирования тегов EXIF (если Pillow не декодирует их автоматически)
 def get_exif_data(exif_data, tag):

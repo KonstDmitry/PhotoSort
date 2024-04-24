@@ -1,26 +1,54 @@
 from exif import Image
+from PIL import Image as PILImage
 import os
-from binascii import hexlify
-import pprint
+import time
 
-print()
+start_time = time.time()
 
 path_photo = 'Photo/'
-img_format = ['.RAW', '.RAF', '.CR2', '.JPG']
+img_format = ['.RAW', '.RAF', '.CR2', '.JPG', 'DNG']
 
+img_all_count = 0
+img_in_count = 0
+img_out_count = 0
 
-for i in range(len(os.listdir(path_photo))):
-    img = os.listdir(path_photo)[i]
+# for i in os.listdir(path_photo):
+#     print(i)
+
+for img in os.listdir(path_photo):
     img_path = path_photo + img
+    img_all_count += 1
+    with open(img_path, 'rb') as image_file:
+        my_image = Image(image_file)
+        image_file = image_file
+        print(image_file)
     try:
-        img in img_format
-        with open(str(img_path), 'rb') as image_file:
-            my_image = Image(image_file)
-            my_camera_model = str(my_image.model).rstrip()
-            print(f"{img} {my_camera_model} : {my_image.datetime} {my_image.has_exif}")
+        # for i in image_file:
+        #     image_file[-6:-2] in i
+        #     print('YES')
+            # if '.CR2' in img:
+            #     print('YES')
+            #     img_open = Image.open(img_path)
+            #     img_exif = img_open.getexif()
+            #     a = img_exif.get(272, None)
+            #     b = img_exif.get(306, None)
+            #     print(a, b)
+
+            # else:
+            #     continue
+            with open(img_path, 'rb') as image_file:
+                my_image = Image(image_file)
+                my_camera_model = str(my_image.model).rstrip()
+                print(f"{img} {my_camera_model} : {my_image.datetime}")
+                img_in_count += 1
     except:
-        print(f"Пропустил файл: {os.listdir(path_photo)[i]} {my_image.has_exif}")
+        img_out_count += 1
+        print(f"Пропустил файл: {img}")
         continue
+print()
+print(f"Количество всех файлов: {img_all_count}")
+print(f"Количество отобранный файлов: {img_in_count}")
+print(f"Количество исключенных файлов: {img_out_count}")
 
 #     my_camera_model = my_image.model
 #     my_camera_lens = str(my_image.lens_model).rstrip()
@@ -36,3 +64,7 @@ for i in range(len(os.listdir(path_photo))):
 #
 # for i in range(len(my_image.list_all())):
 #     print(f"{i}: {my_image.list_all()[i]}")
+
+end_time = time.time()
+execution_time = end_time - start_time
+print(f"Время выполнения программы: {execution_time} секунд")
