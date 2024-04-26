@@ -62,7 +62,6 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                         print(f"Папка {date_time_pil_obj.strftime('%y%m%d')} создана")
                     else:
                         print(f"Папка {date_time_pil_obj.strftime('%y%m%d')} уже существует")
-                    print(path_file)
                     shutil.copy(path_file,
                                 img_new_folder + date_time_pil_obj.strftime('%y%m%d'))
                 except:
@@ -80,9 +79,9 @@ print(f"Количество через библоиотеку PIL: {file_pil_co
 print(f"Количество исключенных файлов: {other_count}")
 print(f"Общий вес всех фотографий: {file_weight/1048576}")
 
-print(img_folder_list)
-print(img_dict)
-print(img_dict.keys())
+# print(img_folder_list)
+# print(img_dict)
+# print(img_dict.keys())
 
 unique_folder = list(set(img_folder_list))
 print(f"Список уникальных дат: {unique_folder} и их количество - {len(unique_folder)}")
