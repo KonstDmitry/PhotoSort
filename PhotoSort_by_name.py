@@ -1,9 +1,12 @@
 import os
 import time
+import datetime
 from exif import Image
 from PIL import Image as pil_image
 
-img_path = input(f"Введите путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old'
+img_old_folder = input(f"Введите путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/'
+img_new_folder = input(f"Введите путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
+
 img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG'}
 start_time = time.time()
 file_count = 0
@@ -12,9 +15,10 @@ file_pil_count = 0
 file_weight = 0
 img_count = 0
 img_dict = {}
+img_folder_list = []
 other_count = 0
 
-for dirpath, dirnames, filenames in os.walk(img_path):          # Обращаемся ко всем файлам в папках
+for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обращаемся ко всем файлам в папках
     for filename in filenames:
         path_file = os.path.join(dirpath, filename)             # Узнаем общий длинный путь к файлу
         # for file in os.listdir(img_path):
@@ -23,22 +27,28 @@ for dirpath, dirnames, filenames in os.walk(img_path):          # Обращае
             # print(f"filename {filename}")
             img_count += 1
             try:
-                with open(path_file, 'rb') as img_file:         # Пытаемся вытянуть значения через exif
+                with open(path_file, 'rb') as img_file_exif:         # Пытаемся вытянуть значения через exif
                     # print(f"{file}: Yes")
-                    my_img = Image(img_file)
-                    img_date = my_img.datetime
+                    img_by_exif_file = Image(img_file_exif)
+                    img_by_exif_date = img_by_exif_file.datetime
                     file_weight += os.path.getsize(path_file)
-                    print(f"{filename} {img_date} (by exif)")
+                    print(f"{filename} {img_by_exif_date} (by exif)")
                     file_exif_count += 1
-                    img_dict[img_date] = path_file
+                    img_dict[img_by_exif_date] = path_file
+                    date_time_str = img_by_exif_date
+                    date_time_obj = datetime.datetime.strptime(date_time_str,'%Y:%m:%d %H:%M:%S')
+                    img_folder_list.append(date_time_obj.strftime('%y%m%d'))
             except:
                 try:                                            # Если не вышло 1-го варианта, пытаемся вытянуть данные через PIL
-                    img_open = pil_image.open(path_file)
-                    img_exif = img_open.getexif()
-                    b = img_exif.get(306, None)
-                    print(f"{filename} {b} (by PIL)")
+                    img_pil = pil_image.open(path_file)
+                    img_pil_open_exif = img_pil.getexif()
+                    img_date_pil = img_pil_open_exif.get(306, None)
+                    print(f"{filename} {img_date_pil} (by PIL)")
                     file_pil_count += 1
-                    img_dict[img_date] = img_path + file
+                    img_dict[img_by_exif_date] = img_old_folder + file
+                    date_time_str = img_date_pil
+                    date_time_obj = datetime.datetime.strptime(date_time_str,'%Y:%m:%d %H:%M:%S')
+                    img_folder_list.append(date_time_obj.strftime('%y%m%d'))
                 except:
                     continue
                     print(f"{path_file}: No")
@@ -54,9 +64,19 @@ print(f"Количество через библоиотеку PIL: {file_pil_co
 print(f"Количество исключенных файлов: {other_count}")
 print(f"Общий вес всех фотографий: {file_weight/1048576}")
 
+print(img_folder_list)
 print(img_dict)
 print(img_dict.keys())
+
+## Создание папок на основе списка
+unique_folder = list(set(img_folder_list))
+print(f"Список уникальных дат: {unique_folder} и их количество - {len(unique_folder)}")
+
+for folder in unique_folder:
+    os.mkdir(img_new_folder + folder)
+    print(f"Папка {folder} создана")
 
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Время выполнения программы: {execution_time} секунд или {execution_time/60} минут")
+
