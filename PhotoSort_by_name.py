@@ -2,6 +2,7 @@ import os
 import time
 import datetime
 import shutil
+import namecreator
 from exif import Image
 from PIL import Image as pil_image
 
@@ -77,7 +78,7 @@ print(f"Количество отобранный файлов: {img_count}")
 print(f"Количество через библоиотеку exif: {file_exif_count}")
 print(f"Количество через библоиотеку PIL: {file_pil_count}")
 print(f"Количество исключенных файлов: {other_count}")
-print(f"Общий вес всех фотографий: {file_weight/1048576}")
+print(f"Обore /Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For Phщий вес всех фотографий: {file_weight/1048576}")
 
 # print(img_folder_list)
 # print(img_dict)
@@ -90,3 +91,12 @@ end_time = time.time()
 execution_time = end_time - start_time
 print(f"Время выполнения программы: {execution_time} секунд или {execution_time/60} минут")
 
+# for dirpath, dirnames, filenames in os.walk(img_new_folder):          # Обращаемся ко всем файлам в папках
+#     for filename in filenames:
+#         print(os.path.join(dirpath, filename))
+namecreator.new_path(img_new_folder)
+namecreator.subfolder(img_new_folder)
+
+# for x in img_new_folder:
+with open(img_new_folder):
+    print(img_new_folder)
