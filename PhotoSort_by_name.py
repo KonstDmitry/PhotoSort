@@ -1,6 +1,7 @@
 import os
 import time
 import datetime
+import shutil
 from exif import Image
 from PIL import Image as pil_image
 
@@ -38,6 +39,13 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     date_time_str = img_by_exif_date
                     date_time_obj = datetime.datetime.strptime(date_time_str,'%Y:%m:%d %H:%M:%S')
                     img_folder_list.append(date_time_obj.strftime('%y%m%d'))
+                    if not os.path.exists(img_new_folder + date_time_obj.strftime('%y%m%d')):
+                        os.makedirs(img_new_folder + date_time_obj.strftime('%y%m%d'))
+                        print(f"Папка {date_time_obj.strftime('%y%m%d')} создана")
+                    else:
+                        print(f"Папка {date_time_obj.strftime('%y%m%d')} уже существует")
+                    shutil.copy(path_file,
+                            img_new_folder + date_time_obj.strftime('%y%m%d'))
             except:
                 try:                                            # Если не вышло 1-го варианта, пытаемся вытянуть данные через PIL
                     img_pil = pil_image.open(path_file)
@@ -45,10 +53,18 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     img_date_pil = img_pil_open_exif.get(306, None)
                     print(f"{filename} {img_date_pil} (by PIL)")
                     file_pil_count += 1
-                    img_dict[img_by_exif_date] = img_old_folder + file
-                    date_time_str = img_date_pil
-                    date_time_obj = datetime.datetime.strptime(date_time_str,'%Y:%m:%d %H:%M:%S')
-                    img_folder_list.append(date_time_obj.strftime('%y%m%d'))
+                    img_dict[img_by_exif_date] = img_old_folder + filename
+                    date_time_pil_str = img_by_exif_date
+                    date_time_pil_obj = datetime.datetime.strptime(date_time_pil_str,'%Y:%m:%d %H:%M:%S')
+                    img_folder_list.append(date_time_pil_obj.strftime('%y%m%d'))
+                    if not os.path.exists(img_new_folder + date_time_pil_obj.strftime('%y%m%d')):
+                        os.makedirs(img_new_folder + date_time_pil_obj.strftime('%y%m%d'))
+                        print(f"Папка {date_time_pil_obj.strftime('%y%m%d')} создана")
+                    else:
+                        print(f"Папка {date_time_pil_obj.strftime('%y%m%d')} уже существует")
+                    print(path_file)
+                    shutil.copy(path_file,
+                                img_new_folder + date_time_pil_obj.strftime('%y%m%d'))
                 except:
                     continue
                     print(f"{path_file}: No")
@@ -56,6 +72,8 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
         else:
             other_count += 1
             print(f"{path_file}: No")
+            # shutil.copy(img_old_folder + filename,'/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New')
+    # print(f"Файл {path_file} скопирован в папку {img_new_folder + date_time_obj.strftime('%y%m%d')}")
 
 print(f"Количество всех файлов: {file_count}")
 print(f"Количество отобранный файлов: {img_count}")
@@ -72,9 +90,10 @@ print(img_dict.keys())
 unique_folder = list(set(img_folder_list))
 print(f"Список уникальных дат: {unique_folder} и их количество - {len(unique_folder)}")
 
-for folder in unique_folder:
-    os.mkdir(img_new_folder + folder)
-    print(f"Папка {folder} создана")
+# for folder in unique_folder:
+#     os.mkdir(img_new_folder + folder)
+#     shutil.copy2()
+#     print(f"Папка {folder} создана")
 
 end_time = time.time()
 execution_time = end_time - start_time
