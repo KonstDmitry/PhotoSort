@@ -72,8 +72,6 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
         else:
             other_count += 1
             print(f"{path_file}: No")
-            # shutil.copy(img_old_folder + filename,'/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New')
-    # print(f"Файл {path_file} скопирован в папку {img_new_folder + date_time_obj.strftime('%y%m%d')}")
 
 print(f"Количество всех файлов: {file_count}")
 print(f"Количество отобранный файлов: {img_count}")
@@ -86,14 +84,8 @@ print(img_folder_list)
 print(img_dict)
 print(img_dict.keys())
 
-## Создание папок на основе списка
 unique_folder = list(set(img_folder_list))
 print(f"Список уникальных дат: {unique_folder} и их количество - {len(unique_folder)}")
-
-# for folder in unique_folder:
-#     os.mkdir(img_new_folder + folder)
-#     shutil.copy2()
-#     print(f"Папка {folder} создана")
 
 end_time = time.time()
 execution_time = end_time - start_time
