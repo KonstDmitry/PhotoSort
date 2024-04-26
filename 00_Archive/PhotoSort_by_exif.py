@@ -5,7 +5,7 @@ import time
 
 start_time = time.time()
 
-path_photo = 'Photo/'
+path_photo = '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/FUJI_203/SubFolder/'
 img_format = ['.RAW', '.RAF', '.CR2', '.JPG', 'DNG']
 
 img_all_count = 0
@@ -17,6 +17,7 @@ img_out_count = 0
 
 for img in os.listdir(path_photo):
     img_path = path_photo + img
+    print(img_path)
     img_all_count += 1
     with open(img_path, 'rb') as image_file:
         my_image = Image(image_file)
