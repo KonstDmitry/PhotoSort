@@ -6,8 +6,10 @@ import namecreator
 from exif import Image
 from PIL import Image as pil_image
 
-img_old_folder = input(f"Введите путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/'
-img_new_folder = input(f"Введите путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
+img_old_folder = input(f"Введите начальный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/'
+img_new_folder = input(f"Введите конечный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
+
+a = 15
 
 img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG'}
 start_time = time.time()
@@ -51,8 +53,8 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                 try:                                            # Если не вышло 1-го варианта, пытаемся вытянуть данные через PIL
                     img_pil = pil_image.open(path_file)
                     img_pil_open_exif = img_pil.getexif()
-                    img_date_pil = img_pil_open_exif.get(306, None)
-                    print(f"{filename} {img_date_pil} (by PIL)")
+                    img_pil_date = img_pil_open_exif.get(306, None)
+                    print(f"{filename} {img_pil_date} (by PIL)")
                     file_pil_count += 1
                     img_dict[img_by_exif_date] = img_old_folder + filename
                     date_time_pil_str = img_by_exif_date
@@ -94,9 +96,6 @@ print(f"Время выполнения программы: {execution_time} с�
 # for dirpath, dirnames, filenames in os.walk(img_new_folder):          # Обращаемся ко всем файлам в папках
 #     for filename in filenames:
 #         print(os.path.join(dirpath, filename))
-namecreator.new_path(img_new_folder)
-namecreator.subfolder(img_new_folder)
 
-# for x in img_new_folder:
-with open(img_new_folder):
-    print(img_new_folder)
+namecreator.new_path(img_new_folder)
+# namecreator.subfolder(img_new_folder)
