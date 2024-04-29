@@ -10,7 +10,7 @@ from PIL import Image as pil_image
 img_old_folder = input(f"Введите начальный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/'
 img_new_folder = input(f"Введите конечный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
 
-img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG'}
+img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG', 'jpg'}
 start_time = time.time()
 file_count = 0
 file_exif_count = 0

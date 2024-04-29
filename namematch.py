@@ -7,5 +7,7 @@ def namematch(camera_name):
         img_prefix = '100F'
     if camera_name == 'X-S10'.lower():
         img_prefix = 'XS10'
+    if camera_name == 'X-T30'.lower():
+        img_prefix = 'XT30'
         print(img_prefix)
     print(img_prefix)
