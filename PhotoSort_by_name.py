@@ -9,6 +9,7 @@ from PIL import Image as pil_image
 
 img_old_folder = input(f"Введите начальный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/'
 img_new_folder = input(f"Введите конечный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
+os.mkdir(f"{img_new_folder}00_Other/")
 
 img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG', 'jpg'}
 start_time = time.time()
@@ -33,7 +34,6 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
             img_count += 1
             try:
                 with open(path_file, 'rb') as img_file_exif:         # Пытаемся вытянуть значения через exif
-                    # print(f"{file}: Yes")
                     img_by_exif_file = Image(img_file_exif)
                     img_by_exif_date = img_by_exif_file.datetime
                     img_by_exif_camera = img_by_exif_file.model.replace(' ', '')
@@ -73,12 +73,14 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     shutil.copy(path_file,
                                 img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d'))
                 except:
-                    print(f"{path_file}: No")
+                    shutil.copy(path_file,f"{img_new_folder}00_Other/")
                     other_files.append(path_file)
+                    print(f"{path_file}: No")
                     continue
                 continue
         else:
             other_count += 1
+            shutil.copy(path_file,f"{img_new_folder}00_Other/")
             other_files.append(path_file)
             print(f"{path_file}: No")
 
@@ -108,8 +110,7 @@ namecreator.new_path(img_new_folder)
 
 camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 
-namematch.namematch('X-S10')
+print('TEST')
+namematch.namematch('X-t30')
 
-print('sdf')
-print('sdfsdfsdf')
-print('sdfsdf')
+
