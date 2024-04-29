@@ -109,3 +109,7 @@ namecreator.new_path(img_new_folder)
 camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 
 namematch.namematch('X-S10')
+
+print('sdf')
+print('sdfsdfsdf')
+print('sdfsdf')
