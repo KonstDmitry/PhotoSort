@@ -3,13 +3,12 @@ import time
 import datetime
 import shutil
 import namecreator
+import namematch
 from exif import Image
 from PIL import Image as pil_image
 
 img_old_folder = input(f"Введите начальный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/'
 img_new_folder = input(f"Введите конечный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
-
-a = 15
 
 img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG'}
 start_time = time.time()
@@ -22,6 +21,7 @@ img_dict = {}
 img_folder_list = []
 other_count = 0
 other_files = []
+camera_model_list = []
 
 for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обращаемся ко всем файлам в папках
     for filename in filenames:
@@ -37,6 +37,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     img_by_exif_file = Image(img_file_exif)
                     img_by_exif_date = img_by_exif_file.datetime
                     img_by_exif_camera = img_by_exif_file.model.replace(' ', '')
+                    camera_model_list.append(img_by_exif_camera)
                     file_weight += os.path.getsize(path_file)
                     print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif)")
                     file_exif_count += 1
@@ -57,6 +58,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     img_by_pil_open = img_by_pil_file.getexif()
                     img_by_pil_date = img_by_pil_open.get(306, None)
                     img_by_pil_camera = img_by_pil_open.get(272, None).replace(' ', '')
+                    camera_model_list.append(img_by_pil_camera)
                     print(f"{filename} {img_by_pil_date} {img_by_pil_camera} (by PIL)")
                     file_pil_count += 1
                     img_dict[img_by_exif_date] = [img_old_folder + filename, img_by_pil_date]
@@ -85,25 +87,25 @@ print(f"Количество отобранный файлов: {img_count}")
 print(f"Количество через библоиотеку exif: {file_exif_count}")
 print(f"Количество через библоиотеку PIL: {file_pil_count}")
 print(f"Количество исключенных файлов: {other_count}")
-print(f"Обore /Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For Phщий вес всех фотографий: {file_weight/1048576}")
+print(f"Общий вес всех фотографий: {file_weight/1048576}")
 
 # print(img_folder_list)
 # print(img_dict.keys())
 
 unique_folder = list(set(img_folder_list))
 print(f"Список уникальных дат: {unique_folder} и их количество - {len(unique_folder)}")
+unique_camera_model = list(set(camera_model_list))
+print(f"Список уникальных моделей камеры: {unique_camera_model} и их количество - {len(set(camera_model_list))}")
 
 end_time = time.time()
 execution_time = end_time - start_time
 print(f"Время выполнения программы: {execution_time} секунд или {execution_time/60} минут")
 
-# for dirpath, dirnames, filenames in os.walk(img_new_folder):          # Обращаемся ко всем файлам в папках
-#     for filename in filenames:
-#         print(os.path.join(dirpath, filename))
 
 print(img_dict)
 print(other_files)
-# namecreator.new_path(img_new_folder)
-# namecreator.subfolder(img_new_folder)
+namecreator.new_path(img_new_folder)
 
+camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 
+namematch.namematch('X-S10')

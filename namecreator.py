@@ -39,5 +39,3 @@ def new_path(img_new_folder):
     #     for filename in filenames:
 
     #         print(os.path.join(dirpath, filename))
-# def subfolder(folder):
-#     print(folder)
