@@ -21,6 +21,7 @@ img_count = 0
 img_dict = {}
 img_folder_list = []
 other_count = 0
+other_files = []
 
 for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обращаемся ко всем файлам в папках
     for filename in filenames:
@@ -35,44 +36,48 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     # print(f"{file}: Yes")
                     img_by_exif_file = Image(img_file_exif)
                     img_by_exif_date = img_by_exif_file.datetime
+                    img_by_exif_camera = img_by_exif_file.model.replace(' ', '')
                     file_weight += os.path.getsize(path_file)
-                    print(f"{filename} {img_by_exif_date} (by exif)")
+                    print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif)")
                     file_exif_count += 1
-                    img_dict[img_by_exif_date] = path_file
-                    date_time_str = img_by_exif_date
-                    date_time_obj = datetime.datetime.strptime(date_time_str,'%Y:%m:%d %H:%M:%S')
-                    img_folder_list.append(date_time_obj.strftime('%y%m%d'))
-                    if not os.path.exists(img_new_folder + date_time_obj.strftime('%y%m%d')):
-                        os.makedirs(img_new_folder + date_time_obj.strftime('%y%m%d'))
-                        print(f"Папка {date_time_obj.strftime('%y%m%d')} создана")
+                    img_dict[img_by_exif_date] = [path_file, img_by_exif_camera]
+                    img_by_exif_date_time_str = img_by_exif_date
+                    img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str, '%Y:%m:%d %H:%M:%S')
+                    img_folder_list.append(img_by_exif_date_time_obj.strftime('%y%m%d'))
+                    if not os.path.exists(img_new_folder + img_by_exif_date_time_obj.strftime('%y%m%d')):
+                        os.makedirs(img_new_folder + img_by_exif_date_time_obj.strftime('%y%m%d'))
+                        print(f"Папка {img_by_exif_date_time_obj.strftime('%y%m%d')} создана")
                     else:
-                        print(f"Папка {date_time_obj.strftime('%y%m%d')} уже существует")
+                        print(f"Папка {img_by_exif_date_time_obj.strftime('%y%m%d')} уже существует")
                     shutil.copy(path_file,
-                            img_new_folder + date_time_obj.strftime('%y%m%d'))
+                                img_new_folder + img_by_exif_date_time_obj.strftime('%y%m%d'))
             except:
                 try:                                            # Если не вышло 1-го варианта, пытаемся вытянуть данные через PIL
-                    img_pil = pil_image.open(path_file)
-                    img_pil_open_exif = img_pil.getexif()
-                    img_pil_date = img_pil_open_exif.get(306, None)
-                    print(f"{filename} {img_pil_date} (by PIL)")
+                    img_by_pil_file = pil_image.open(path_file)
+                    img_by_pil_open = img_by_pil_file.getexif()
+                    img_by_pil_date = img_by_pil_open.get(306, None)
+                    img_by_pil_camera = img_by_pil_open.get(272, None).replace(' ', '')
+                    print(f"{filename} {img_by_pil_date} {img_by_pil_camera} (by PIL)")
                     file_pil_count += 1
-                    img_dict[img_by_exif_date] = img_old_folder + filename
-                    date_time_pil_str = img_by_exif_date
-                    date_time_pil_obj = datetime.datetime.strptime(date_time_pil_str,'%Y:%m:%d %H:%M:%S')
-                    img_folder_list.append(date_time_pil_obj.strftime('%y%m%d'))
-                    if not os.path.exists(img_new_folder + date_time_pil_obj.strftime('%y%m%d')):
-                        os.makedirs(img_new_folder + date_time_pil_obj.strftime('%y%m%d'))
-                        print(f"Папка {date_time_pil_obj.strftime('%y%m%d')} создана")
+                    img_dict[img_by_exif_date] = [img_old_folder + filename, img_by_pil_date]
+                    img_by_pli_date = img_by_exif_date
+                    img_by_pil_date_time_obj = datetime.datetime.strptime(img_by_pli_date, '%Y:%m:%d %H:%M:%S')
+                    img_folder_list.append(img_by_pil_date_time_obj.strftime('%y%m%d.%f'))
+                    if not os.path.exists(img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d')):
+                        os.makedirs(img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d'))
+                        print(f"Папка {img_by_pil_date_time_obj.strftime('%y%m%d')} создана")
                     else:
-                        print(f"Папка {date_time_pil_obj.strftime('%y%m%d')} уже существует")
+                        print(f"Папка {img_by_pil_date_time_obj.strftime('%y%m%d')} уже существует")
                     shutil.copy(path_file,
-                                img_new_folder + date_time_pil_obj.strftime('%y%m%d'))
+                                img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d'))
                 except:
-                    continue
                     print(f"{path_file}: No")
+                    other_files.append(path_file)
+                    continue
                 continue
         else:
             other_count += 1
+            other_files.append(path_file)
             print(f"{path_file}: No")
 
 print(f"Количество всех файлов: {file_count}")
@@ -83,7 +88,6 @@ print(f"Количество исключенных файлов: {other_count}"
 print(f"Обore /Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For Phщий вес всех фотографий: {file_weight/1048576}")
 
 # print(img_folder_list)
-# print(img_dict)
 # print(img_dict.keys())
 
 unique_folder = list(set(img_folder_list))
@@ -97,5 +101,9 @@ print(f"Время выполнения программы: {execution_time} с�
 #     for filename in filenames:
 #         print(os.path.join(dirpath, filename))
 
-namecreator.new_path(img_new_folder)
+print(img_dict)
+print(other_files)
+# namecreator.new_path(img_new_folder)
 # namecreator.subfolder(img_new_folder)
+
+

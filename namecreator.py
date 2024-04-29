@@ -6,18 +6,19 @@ def new_path(img_new_folder):
     for dirpath, dirnames, filenames in os.walk(img_new_folder):
         for dirname in dirnames:
             dir_path = dirpath + dirname
+            print(dir_path)
             for i in os.listdir(dir_path):
                 try:
                     with open(dir_path + '/' + i, 'rb') as img_exif_file:
                         img_exif_file = Image(img_exif_file)
                         img_exif_model = img_exif_file.model
-                        print(img_exif_model)
+                        print(f"    {img_exif_model}")
                 except:
                     try:
                         img_pil_file = pil_image.open(dir_path + '/' + i)
                         img_pil_exif = img_pil_file.getexif()
                         img_pil_model = str(img_pil_exif.get(272, None)).rstrip()
-                        print(img_pil_model)
+                        print(f"    {img_pil_model}")
                     except:
                         print('No')
                         continue
