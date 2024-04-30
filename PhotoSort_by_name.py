@@ -3,6 +3,7 @@ import time
 import datetime
 import shutil
 import namecreator
+import dict_test
 import namematch
 from exif import Image
 from PIL import Image as pil_image
@@ -117,8 +118,8 @@ for i in other_files:
 
 camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 
-# namecreator.new_path(img_new_folder)
-
+namecreator.new_path(img_new_folder)
+# dict_test.test(img_dict)
 
 print('TEST')
 print(namematch.namematch('X-S10'))
