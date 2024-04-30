@@ -9,9 +9,12 @@ from PIL import Image as pil_image
 
 img_old_folder = input(f"Введите начальный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/'
 img_new_folder = input(f"Введите конечный путь к папке:").rstrip() or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
-os.mkdir(f"{img_new_folder}00_Other/")
 
-img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG', 'jpg'}
+if not os.path.exists(f"{img_new_folder}00_Other/"):
+        os.mkdir(f"{img_new_folder}00_Other/")
+
+
+img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG', 'jpg', 'jpeg'}
 start_time = time.time()
 file_count = 0
 file_exif_count = 0
@@ -41,7 +44,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     file_weight += os.path.getsize(path_file)
                     print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif)")
                     file_exif_count += 1
-                    img_dict[img_by_exif_date] = [path_file, img_by_exif_camera]
+                    img_dict[img_by_exif_file] = [path_file, img_by_exif_date, img_by_exif_camera]
                     img_by_exif_date_time_str = img_by_exif_date
                     img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str, '%Y:%m:%d %H:%M:%S')
                     img_folder_list.append(img_by_exif_date_time_obj.strftime('%y%m%d'))
@@ -61,10 +64,10 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     camera_model_list.append(img_by_pil_camera)
                     print(f"{filename} {img_by_pil_date} {img_by_pil_camera} (by PIL)")
                     file_pil_count += 1
-                    img_dict[img_by_exif_date] = [img_old_folder + filename, img_by_pil_date]
                     img_by_pli_date = img_by_exif_date
                     img_by_pil_date_time_obj = datetime.datetime.strptime(img_by_pli_date, '%Y:%m:%d %H:%M:%S')
                     img_folder_list.append(img_by_pil_date_time_obj.strftime('%y%m%d.%f'))
+                    img_dict[img_by_pil_file] = [img_old_folder + filename, img_by_pil_date, img_by_pil_camera]
                     if not os.path.exists(img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d')):
                         os.makedirs(img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d'))
                         print(f"Папка {img_by_pil_date_time_obj.strftime('%y%m%d')} создана")
@@ -73,16 +76,16 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     shutil.copy(path_file,
                                 img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d'))
                 except:
+                    print(f"{path_file}: No")
                     shutil.copy(path_file,f"{img_new_folder}00_Other/")
                     other_files.append(path_file)
-                    print(f"{path_file}: No")
                     continue
                 continue
         else:
             other_count += 1
             shutil.copy(path_file,f"{img_new_folder}00_Other/")
             other_files.append(path_file)
-            print(f"{path_file}: No")
+            print(f"{path_file}: не фото")
 
 print(f"Количество всех файлов: {file_count}")
 print(f"Количество отобранный файлов: {img_count}")
@@ -103,14 +106,21 @@ end_time = time.time()
 execution_time = end_time - start_time
 print(f"Время выполнения программы: {execution_time} секунд или {execution_time/60} минут")
 
+for k, v in img_dict.items():
+    print(f"{k} --> {v}")
 
-print(img_dict)
-print(other_files)
-namecreator.new_path(img_new_folder)
+
+for i in other_files:
+    print(i)
 
 camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 
-print('TEST')
-namematch.namematch('X-t30')
+# namecreator.new_path(img_new_folder)
+#
+#
+# print('TEST')
+# print(namematch.namematch('X-S10'))
+
+
 
 
