@@ -48,6 +48,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     img_by_exif_date_time_str = img_by_exif_date
                     img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str, '%Y:%m:%d %H:%M:%S')
                     img_folder_list.append(img_by_exif_date_time_obj.strftime('%y%m%d'))
+
                     if not os.path.exists(img_new_folder + img_by_exif_date_time_obj.strftime('%y%m%d')):
                         os.makedirs(img_new_folder + img_by_exif_date_time_obj.strftime('%y%m%d'))
                         print(f"Папка {img_by_exif_date_time_obj.strftime('%y%m%d')} создана")
@@ -56,6 +57,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     shutil.copy(path_file,
                                 img_new_folder + img_by_exif_date_time_obj.strftime('%y%m%d'))
             except:
+                print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif) не удалось открыть")
                 try:                                            # Если не вышло 1-го варианта, пытаемся вытянуть данные через PIL
                     img_by_pil_file = pil_image.open(path_file)
                     img_by_pil_open = img_by_pil_file.getexif()
@@ -68,6 +70,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     img_by_pil_date_time_obj = datetime.datetime.strptime(img_by_pli_date, '%Y:%m:%d %H:%M:%S')
                     img_folder_list.append(img_by_pil_date_time_obj.strftime('%y%m%d.%f'))
                     img_dict[img_by_pil_file] = [img_old_folder + filename, img_by_pil_date, img_by_pil_camera]
+
                     if not os.path.exists(img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d')):
                         os.makedirs(img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d'))
                         print(f"Папка {img_by_pil_date_time_obj.strftime('%y%m%d')} создана")
@@ -76,10 +79,9 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):          # Обра
                     shutil.copy(path_file,
                                 img_new_folder + img_by_pil_date_time_obj.strftime('%y%m%d'))
                 except:
-                    print(f"{path_file}: No")
-                    shutil.copy(path_file,f"{img_new_folder}00_Other/")
-                    other_files.append(path_file)
                     continue
+                shutil.copy(path_file,f"{img_new_folder}00_Other/")
+                other_files.append(path_file)
                 continue
         else:
             other_count += 1
@@ -116,10 +118,11 @@ for i in other_files:
 camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 
 # namecreator.new_path(img_new_folder)
-#
-#
-# print('TEST')
-# print(namematch.namematch('X-S10'))
+
+
+print('TEST')
+print(namematch.namematch('X-S10'))
+
 
 
 

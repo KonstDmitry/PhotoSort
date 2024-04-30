@@ -24,6 +24,6 @@ def new_path(img_new_folder):
                         os.renames(f"{dir_path}/{img_object}", f"{dir_path}/{namematch.namematch(img_pil_model)}{img_object[4:]}")
                         print(f"    {img_pil_model}")
                     except:
-                        print('No')
                         continue
+                    print('No')
             print(dir_path)
