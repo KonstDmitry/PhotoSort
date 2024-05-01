@@ -138,3 +138,5 @@ for i in other_files:
 
 # numbering.numbers(img_dict)
 numbering.name_sort(img_new_folder)
+
+print('test')
