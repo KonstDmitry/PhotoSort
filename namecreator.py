@@ -4,11 +4,6 @@ from exif import Image
 import namematch
 
 
-# def dict_test(dict_img):
-#     print(dict_img)
-#
-# dict_test()
-
 camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 
 def new_path(img_new_folder):

@@ -4,9 +4,11 @@ import datetime
 import shutil
 import namecreator
 import dict_test
+import numbering
 import namematch
 from exif import Image
 from PIL import Image as pil_image
+
 
 img_old_folder = (input(
     f"Введите начальный путь к папке:").rstrip()
@@ -134,6 +136,5 @@ for k, v in img_dict.items():
 for i in other_files:
     print(i)
 
-# namecreator.new_path(img_new_folder)
-# dict_test.test(img_dict)
-
+# numbering.numbers(img_dict)
+numbering.name_sort(img_new_folder)
