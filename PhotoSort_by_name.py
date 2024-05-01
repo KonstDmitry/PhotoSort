@@ -140,3 +140,4 @@ for i in other_files:
 numbering.name_sort(img_new_folder)
 
 print('test')
+print('trdt')
