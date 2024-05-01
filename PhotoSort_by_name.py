@@ -53,7 +53,9 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                     file_weight += os.path.getsize(path_file)
                     print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif)")
                     file_exif_count += 1
-                    img_dict[img_by_exif_file] = [path_file, img_by_exif_date, img_by_exif_camera]
+                    img_dict[img_by_exif_file] = [path_file,
+                                                  img_by_exif_date,
+                                                  img_by_exif_camera]
                     img_by_exif_date_time_str = img_by_exif_date
                     img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str,
                                                                            '%Y:%m:%d %H:%M:%S')
@@ -84,8 +86,9 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                     img_by_pil_date_time_obj = datetime.datetime.strptime(img_by_pli_date, '%Y:%m:%d %H:%M:%S')
                     img_by_pil_date_time_obj_format = img_by_pil_date_time_obj.strftime('%y%m%d')
                     img_folder_list.append(img_by_pil_date_time_obj_format)
-                    img_dict[img_by_pil_file] = [img_old_folder + filename, img_by_pil_date, img_by_pil_camera]
-
+                    img_dict[img_by_pil_file] = [img_old_folder + filename,
+                                                 img_by_pil_date,
+                                                 img_by_pil_camera]
                     if not os.path.exists(img_new_folder + img_by_pil_date_time_obj_format):
                         os.makedirs(img_new_folder + img_by_pil_date_time_obj_format)
                         print(f"Папка {img_by_pil_date_time_obj_format} создана")

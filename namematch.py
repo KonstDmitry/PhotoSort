@@ -1,7 +1,5 @@
 ## Переименование префикса файла
 def namematch(camera_name):
-    print(camera_name)
-    img_prefix = ''
     if camera_name == 'X-T5':
         img_prefix = '0XT5'
         return img_prefix
