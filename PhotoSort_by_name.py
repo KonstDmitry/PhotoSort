@@ -1,3 +1,4 @@
+import gc
 import os
 import time
 import datetime
@@ -55,9 +56,9 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                     file_weight += os.path.getsize(path_file)
                     print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif)")
                     file_exif_count += 1
-                    img_dict[img_by_exif_file] = [path_file,
-                                                  img_by_exif_date,
-                                                  img_by_exif_camera]
+                    # img_dict[img_by_exif_file] = [path_file,
+                    #                               img_by_exif_date,
+                    #                               img_by_exif_camera]
                     img_by_exif_date_time_str = img_by_exif_date
                     img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str,
 
@@ -74,6 +75,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                                  img_new_folder + img_by_exif_date_time_obj_format)
                     os.rename(f"{img_new_folder}{img_by_exif_date_time_obj_format}/{filename}",
                               f"{img_new_folder}{img_by_exif_date_time_obj_format}/{namematch.namematch(img_by_exif_camera)}{filename[4:]}")
+                    gc.collect()
             except:
                 print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif) не удалось открыть")
                 try:
@@ -89,9 +91,9 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                     img_by_pil_date_time_obj = datetime.datetime.strptime(img_by_pli_date, '%Y:%m:%d %H:%M:%S')
                     img_by_pil_date_time_obj_format = img_by_pil_date_time_obj.strftime('%y%m%d')
                     img_folder_list.append(img_by_pil_date_time_obj_format)
-                    img_dict[img_by_pil_file] = [img_old_folder + filename,
-                                                 img_by_pil_date,
-                                                 img_by_pil_camera]
+                    # img_dict[img_by_pil_file] = [img_old_folder + filename,
+                    #                              img_by_pil_date,
+                    #                              img_by_pil_camera]
                     if not os.path.exists(img_new_folder + img_by_pil_date_time_obj_format):
                         os.makedirs(img_new_folder + img_by_pil_date_time_obj_format)
                         print(f"Папка {img_by_pil_date_time_obj_format} создана")
@@ -101,16 +103,16 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                                  img_new_folder + img_by_pil_date_time_obj_format)
                     os.rename(f"{img_new_folder}{img_by_pil_date_time_obj_format}/{filename}",
                               f"{img_new_folder}{img_by_pil_date_time_obj_format}/{namematch.namematch(img_by_pil_camera)}{filename[4:]}")
+                    gc.collect()
                 except:
-                    continue
-                shutil.copy2(path_file, f"{img_new_folder}00_Other/")
-                other_files.append(path_file)
-                continue
+                    shutil.copy2(path_file, f"{img_new_folder}00_Other/")
+                    other_files.append(path_file)
         else:
             other_count += 1
             shutil.copy2(path_file, f"{img_new_folder}00_Other/")
             other_files.append(path_file)
             print(f"{path_file}: не фото")
+    gc.collect()
 
 print(f"Количество всех файлов: {file_count}")
 print(f"Количество отобранный файлов: {img_count}")
@@ -131,14 +133,11 @@ end_time = time.time()
 execution_time = end_time - start_time
 print(f"Время выполнения программы: {execution_time} секунд или {execution_time / 60} минут")
 
-for k, v in img_dict.items():
-    print(f"{k} --> {v}")
-
-for i in other_files:
-    print(i)
+# for k, v in img_dict.items():
+#     print(f"{k} --> {v}")
+#
+# for i in other_files:
+#     print(i)
 
 # numbering.numbers(img_dict)
-numbering.name_sort(img_new_folder)
-
-print('test')
-print('trdt')
+# numbering.name_sort(img_new_folder)
