@@ -60,6 +60,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                                                   img_by_exif_camera]
                     img_by_exif_date_time_str = img_by_exif_date
                     img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str,
+
                                                                            '%Y:%m:%d %H:%M:%S')
                     img_by_exif_date_time_obj_format = img_by_exif_date_time_obj.strftime('%y%m%d')
                     img_folder_list.append(img_by_exif_date_time_obj_format)
