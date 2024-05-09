@@ -35,7 +35,7 @@ file_exif = open(f"{img_new_folder}file_exif.txt", "a")
 
 ## Список переменных, словарей и т.п.
 
-img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG', 'jpg', 'jpeg'}
+img_format = {'RAW', 'RAF', 'CR2', 'JPG', 'DNG','dng', 'jpg', 'jpeg'}
 camera_list_rename = ['0XT5', 'X100F', '0XT2', 'XS10', 'PRO1']
 start_time = time.time()
 file_count = 0
