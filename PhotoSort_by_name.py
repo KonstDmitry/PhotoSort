@@ -12,13 +12,13 @@ from PIL import Image as pil_image
 
 img_old_folder = (input(
     f"Введите начальный путь к папке:").rstrip()
-                  or '/Users/dmitry/Desktop/PhotoSort/Old/')
+                  or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/')
 ## or 'D:\test_duplicate\'
 ## '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/Old/')
 
 img_new_folder = (input(
     f"Введите конечный путь к папке:").rstrip()
-                  or '/Users/dmitry/Desktop/PhotoSort/New/')
+                  or '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/')
 ## 'D:/test_duplicate_result/'
 ## '/Users/dmitry/Yandex.Disk.localized/Project/Other/Python/PhotoSort/For PhotoSort/New/'
 

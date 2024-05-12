@@ -44,4 +44,11 @@ def photo_pil(path_file, filename):
     img_by_pil_date_time_obj_format = img_by_pil_date_time_obj.strftime('%y%m%d')
     return filename, img_by_pil_date_time_obj_format, img_by_pil_camera, file_weight_one
 
+def path_create(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+        print(f"Папка {path} создана")
+
+# def
+# def photo_copy(path_file, folder_new):
 
