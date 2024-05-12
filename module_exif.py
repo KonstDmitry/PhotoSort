@@ -64,7 +64,9 @@ def file_copy(path_file, img_new_folder, filename, file_date):
         shutil.copy2(path_file, img_new_folder + filename)
     else:
         count_double += 1
-        shutil.copy2(f"{path_file}', f'{img_new_folder}/00_Other")
+        shutil.copy2(f'{path_file}', f'{img_new_folder}/00_Other')
+
+
 
 # def txt_report(img_new_folder):
 #     file_other = open(f"{img_new_folder}00_Other/file_other.txt", "a")
