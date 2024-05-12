@@ -49,6 +49,11 @@ other_files = []
 camera_model_list = []
 count_double = 0
 
+def camera_list(camera_model):
+    global camera_model_list
+    if not camera_model_list:
+        camera_model_list.append(camera_model)
+
 for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаемся ко всем файлам в папках
     for filename in filenames:
         ## Узнаем общий длинный путь к файлу
@@ -63,14 +68,15 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                     img_by_exif_file = Image(img_file_exif)
                     img_by_exif_date = img_by_exif_file.datetime
                     img_by_exif_camera = img_by_exif_file.model.replace(' ', '')
-                    camera_model_list.append(img_by_exif_camera)
+                    camera_list(img_by_exif_camera)
                     file_weight += os.path.getsize(path_file)
                     print(f"{filename} {img_by_exif_date} {img_by_exif_camera} (by exif)")
                     # img_dict[img_by_exif_file] = [path_file,
                     #                               img_by_exif_date,
                     #                               img_by_exif_camera]
                     img_by_exif_date_time_str = img_by_exif_date
-                    img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str,'%Y:%m:%d %H:%M:%S')
+                    img_by_exif_date_time_obj = datetime.datetime.strptime(img_by_exif_date_time_str,
+                                                                           '%Y:%m:%d %H:%M:%S')
                     img_by_exif_date_time_obj_format = img_by_exif_date_time_obj.strftime('%y%m%d')
                     # img_folder_list.append(img_by_exif_date_time_obj_format)
 
@@ -99,7 +105,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):  # Обращаем
                     img_by_pil_open = img_by_pil_file.getexif()
                     img_by_pil_date = img_by_pil_open.get(306, None)
                     img_by_pil_camera = str(img_by_pil_open.get(272, None).replace(' ', ''))
-                    camera_model_list.append(img_by_pil_camera)
+                    camera_list(img_by_pil_camera)
                     print(f"{filename} {img_by_pil_date} {img_by_pil_camera} (by PIL)")
                     img_by_pli_date = img_by_exif_date
                     img_by_pil_date_time_obj = datetime.datetime.strptime(img_by_pli_date, '%Y:%m:%d %H:%M:%S')
@@ -148,8 +154,10 @@ print(f"Общий вес всех фотографий: {file_weight / 1048576}
 
 # unique_folder = list(set(img_folder_list))
 # print(f"Список уникальных дат: {unique_folder} и их количество - {len(unique_folder)}")
-unique_camera_model = list(set(camera_model_list))
-print(f"Список уникальных моделей камеры: {unique_camera_model} и их количество - {len(set(camera_model_list))}")
+
+print(camera_model_list)
+# unique_camera_model = list(set(camera_model_list))
+# print(f"Список уникальных моделей камеры: {unique_camera_model} и их количество - {len(set(camera_model_list))}")
 
 end_time = time.time()
 execution_time = end_time - start_time
