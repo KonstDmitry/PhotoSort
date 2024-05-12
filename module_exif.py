@@ -56,7 +56,7 @@ def path_create(path):
 def path_other(img_new_folder):
     if not os.path.exists(f"{img_new_folder}00_Other/"):
         os.mkdir(f"{img_new_folder}00_Other/")
-        print(f"Папка 'Other' создана")
+        print(f"Папка {img_new_folder}00_Other создана")
 
 def file_copy(path_file, img_new_folder, filename, file_date):
     global count_double

@@ -42,22 +42,22 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):
             img_count += 1
             try:
                 ## Пытаемся вытянуть значения через exif
-                file_exif_count += 1
                 # print(f'{path_file}')
                 file_data = module_exif.photo_exif(path_file, filename)
                 module_exif.path_create(f'{img_new_folder}{file_data[1]}')
                 module_exif.file_copy(path_file, img_new_folder, file_data[1], file_data[0])
                 file_exif.write(f"{path_file}" + '\n')
+                file_exif_count += 1
                 # print(file_data[0], file_data[1], file_data[2], file_data[3], 'EXIF')
             except:
                 ## Пытаемся вытянуть значения через PIL
                 try:
-                    file_pil_count += 1
                     # print(f'{path_file}')
                     file_data = module_exif.photo_pil(path_file, filename)
                     module_exif.path_create(f'{img_new_folder}{file_data[1]}')
                     module_exif.file_copy(path_file, img_new_folder, file_data[1], file_data[0])
                     file_pil.write(f"{path_file}" + '\n')
+                    file_pil_count += 1
                     # print(file_data[0], file_data[1], file_data[2], file_data[3], 'PIL')
                 except:
                     ## Если и через PIL не получается, кидаем в другие
