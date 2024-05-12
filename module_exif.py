@@ -1,10 +1,14 @@
 import os
 import datetime
+import shutil
 from exif import Image
 from PIL import Image as pil_image
 
 camera_model_list = []
+count_double = 0
 file_weight_sum = 0
+file_exif_count = 0
+file_pil_count = 0
 
 def camera_list(camera_model):
     global camera_model_list
@@ -49,6 +53,23 @@ def path_create(path):
         os.makedirs(path)
         print(f"Папка {path} создана")
 
-# def
-# def photo_copy(path_file, folder_new):
+def path_other(img_new_folder):
+    if not os.path.exists(f"{img_new_folder}00_Other/"):
+        os.mkdir(f"{img_new_folder}00_Other/")
+        print(f"Папка 'Other' создана")
+
+def file_copy(path_file, img_new_folder, filename, file_date):
+    global count_double
+    if not os.path.exists(f'{img_new_folder}{filename}/{file_date}'):
+        shutil.copy2(path_file, img_new_folder + filename)
+    else:
+        count_double += 1
+        shutil.copy2(f"{path_file}', f'{img_new_folder}/00_Other")
+
+# def txt_report(img_new_folder):
+#     file_other = open(f"{img_new_folder}00_Other/file_other.txt", "a")
+#     file_exif = open(f"{img_new_folder}file_exif.txt", "a")
+#     file_pil = open(f"{img_new_folder}file_PIL.txt", "a")
+#     return file_other, file_exif, file_pil
+
 
