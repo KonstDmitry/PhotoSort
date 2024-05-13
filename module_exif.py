@@ -10,7 +10,7 @@ file_weight_sum = 0
 file_exif_count = 0
 file_pil_count = 0
 
-def namematch(camera_name):
+def name_match(camera_name):
     if camera_name == 'X-T5':
         img_prefix = '0XT5'
         return img_prefix
@@ -72,12 +72,13 @@ def photo_pil(path_file, filename):
     img_by_pil_date_time_obj = datetime.datetime.strptime(img_by_pil_date,
                                                           '%Y:%m:%d %H:%M:%S')
     img_by_pil_date_time_obj_format = img_by_pil_date_time_obj.strftime('%y%m%d')
+
     return filename, img_by_pil_date_time_obj_format, camera, file_weight_one
 
 def file_rename(img_new_folder, img_by_exif_date_time_obj_format, filename, camera):
     try:
         os.rename(f"{img_new_folder}{img_by_exif_date_time_obj_format}/{filename}",
-                  f"{img_new_folder}{img_by_exif_date_time_obj_format}/{namematch(camera)}{filename[4:]}")
+                  f"{img_new_folder}{img_by_exif_date_time_obj_format}/{name_match(camera)}{filename[4:]}")
     except:
         print('no')
 
@@ -91,15 +92,25 @@ def path_other(img_new_folder):
         os.mkdir(f"{img_new_folder}00_Other/")
         print(f"Папка {img_new_folder}00_Other создана")
 
+def path_copy(img_new_folder):
+    if not os.path.exists(f"{img_new_folder}00_Copy/"):
+        os.mkdir(f"{img_new_folder}00_Copy/")
+        print(f"Папка {img_new_folder}00_Copy создана")
+
 def file_copy(path_file, img_new_folder, filename, file_date):
     global count_double
-    if not os.path.exists(f'{img_new_folder}{filename}/{file_date}'):
-        shutil.copy2(path_file, img_new_folder + filename)
+    if not os.path.exists(f"{img_new_folder}{filename}/{file_date}"):
+        shutil.copy2(f"{path_file}", f"{img_new_folder}{filename}")
     else:
         print(f"{path_file} copy")
         count_double += 1
-        shutil.copy2(f'{path_file}', f'{img_new_folder}/00_Other')
-
+        # print((f"{path_file}{img_new_folder}00_Copy/{filename}/"))
+        shutil.copy2(f"{path_file}", f"{img_new_folder}00_Copy/{path_file.split('\\')[1]}")
+        file_name_extension = f"{path_file.split('\\')[1]}"
+        file_name= f"{path_file.split('\\')[1][:path_file.split('\\')[1].find('.')]}"
+        file_extension = f"{path_file.split('\\')[1][path_file.split('\\')[1].find('.'):]}"
+        os.rename(f"{img_new_folder}00_Copy/{file_name_extension}",
+                  f"{img_new_folder}00_Copy/{file_name}_copy{file_extension}")
 
 
 # def txt_report(img_new_folder):
