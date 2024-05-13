@@ -104,19 +104,11 @@ def file_copy(path_file, img_new_folder, filename, file_date):
     else:
         print(f"{path_file} copy")
         count_double += 1
-        # print((f"{path_file}{img_new_folder}00_Copy/{filename}/"))
         shutil.copy2(f"{path_file}", f"{img_new_folder}00_Copy/{path_file.split('\\')[1]}")
         file_name_extension = f"{path_file.split('\\')[1]}"
         file_name= f"{path_file.split('\\')[1][:path_file.split('\\')[1].find('.')]}"
         file_extension = f"{path_file.split('\\')[1][path_file.split('\\')[1].find('.'):]}"
         os.rename(f"{img_new_folder}00_Copy/{file_name_extension}",
                   f"{img_new_folder}00_Copy/{file_name}_copy{file_extension}")
-
-
-# def txt_report(img_new_folder):
-#     file_other = open(f"{img_new_folder}00_Other/file_other.txt", "a")
-#     file_exif = open(f"{img_new_folder}file_exif.txt", "a")
-#     file_pil = open(f"{img_new_folder}file_PIL.txt", "a")
-#     return file_other, file_exif, file_pil
-
-
+        shutil.move(f"{img_new_folder}00_Copy/{file_name}_copy{file_extension}",
+                    f"{img_new_folder}{filename}/{file_name}_copy{file_extension}")
