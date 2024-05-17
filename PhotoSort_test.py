@@ -36,6 +36,7 @@ file_other = open(f"{img_new_folder}00_Other/file_other.txt", "a")
 file_exif = open(f"{img_new_folder}file_exif.txt", "a")
 file_pil = open(f"{img_new_folder}file_pil.txt", "a")
 
+
 start_time = time.time()
 
 for dirpath, dirnames, filenames in os.walk(img_old_folder):
@@ -54,7 +55,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):
                 module_photo.file_rename(img_new_folder, img_info['date'], file_name, img_info['camera'])
                 file_exif.write(f"{file_path}" + '\n')
                 file_exif_count += 1
-                # print(img_info)
+                print(img_info)
             except:
                 # Пытаемся вытянуть значения через PIL
                 try:
@@ -64,7 +65,7 @@ for dirpath, dirnames, filenames in os.walk(img_old_folder):
                     module_photo.file_rename(img_new_folder, img_info['date'], file_name, img_info['camera'])
                     file_pil.write(f"{file_path}" + '\n')
                     file_pil_count += 1
-                    # print(img_info)
+                    print(img_info)
                 except:
                     # Если и через PIL не получается, кидаем в другие
                     print(f"{file_path} не удалось открыть")

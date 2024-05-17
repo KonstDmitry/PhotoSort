@@ -64,7 +64,6 @@ def photo_exif(path_file, file_name):
         img_weight(file_dict['weight'])
 
         return file_dict
-        # return filename, img_by_exif_date_time_obj_format, camera, file_weight_one
 def photo_pil(path_file, file_name):
     file_dict = {}
     global file_weight_sum, camera_model_list
@@ -90,7 +89,10 @@ def file_rename(img_new_folder, img_date, filename, camera):
         os.rename(f"{img_new_folder}{img_date}/{filename}",
                   f"{img_new_folder}{img_date}/{name_match(camera)}{filename[4:]}")
     except:
-        print(f"{img_new_folder}{img_date}/{filename} NO")
+        print(f"{img_new_folder}{img_date}/{filename} невозможно переименовать")
+        print(img_new_folder, img_date, filename, camera)
+        # shutil.copy2(file_path, f"{img_new_folder}00_Other/")
+
 
 def path_create(path):
     if not os.path.exists(path):
